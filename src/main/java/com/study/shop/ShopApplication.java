@@ -8,6 +8,16 @@ public class ShopApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(ShopApplication.class, args);
+    Friend test = new Friend("권대형");
+    System.out.println(test.name);
 	}
 
+}
+
+class Friend {
+  String name = "kim";
+  int age = 20;
+  Friend(String name) {
+    this.name = name;
+  }
 }
