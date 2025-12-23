@@ -5,6 +5,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 @RequiredArgsConstructor
@@ -18,4 +20,19 @@ public class ItemController {
     model.addAttribute("items", result);
     return "list.html";
   }
+
+  @GetMapping("write")
+  String write(Model model){
+    return "write.html";
+  }
+
+  @PostMapping("add")
+  String addPost(
+      @RequestParam String title,
+      @RequestParam Integer price) {
+    Item item = new Item(title, price);
+    itemRepository.save(item);
+    return "redirect:/list";
+  }
+
 }
