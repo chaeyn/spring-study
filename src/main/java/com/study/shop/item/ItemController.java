@@ -3,26 +3,23 @@ package com.study.shop.item;
 import java.util.List;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 @RequiredArgsConstructor
 public class ItemController {
 
   private final ItemRepository itemRepository;
+  private final ItemService itemService;
 
   @GetMapping("list")
   String list(Model model){
-    List<Item> result = itemRepository.findAll();
-    model.addAttribute("items", result);
+    List<Item> items = itemService.getAllItem();
+    model.addAttribute("items", items);
     return "list.html";
   }
 
@@ -32,18 +29,15 @@ public class ItemController {
   }
 
   @PostMapping("add")
-  String addPost(
-      @RequestParam String title,
-      @RequestParam Integer price) {
-    Item item = new Item(title, price);
-    itemRepository.save(item);
+  String addPost(String title, Integer price) {
+    itemService.saveItem(title, price);
     return "redirect:/list";
   }
 
   @GetMapping("detail/{id}")
   String detail(@PathVariable Long id, Model model) {
 
-    Optional<Item> item = itemRepository.findById(id);
+    Optional<Item> item = Optional.ofNullable(itemService.getItemById(id));
     if (item.isPresent()){
       model.addAttribute("item", item.get());
       return "detail.html";
