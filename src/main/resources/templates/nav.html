@@ -9,13 +9,10 @@
   <title>Document</title>
 </head>
 <body>
-<div th:replace="~{nav.html :: navbar}"></div>
-<div class="card" th:each="i : ${items}">
-    <img src="https://placehold.co/300">
-    <div>
-      <h4 th:text="${i.title}">바지</h4>
-      <p th:text="${i.price}">7억</p>
-    </div>
+  <div class="nav" th:fragment="navbar">
+    <a class="logo">SpringMall</a>
+    <a>List</a>
+    <a>Write</a>
   </div>
 </body>
 </html>
