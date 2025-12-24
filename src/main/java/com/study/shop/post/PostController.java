@@ -1,7 +1,5 @@
 package com.study.shop.post;
 
-import com.study.shop.item.ItemRepository;
-import com.study.shop.item.ItemService;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;

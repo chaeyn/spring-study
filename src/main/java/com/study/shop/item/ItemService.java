@@ -23,4 +23,12 @@ public class ItemService {
   public Optional<Item> getItemById(Long id) {
     return itemRepository.findById(id);
   }
+
+  public void editItem(Long id, String title, Integer price) {
+    Item item = new Item();
+    item.setId(id);
+    item.setTitle(title);
+    item.setPrice(price);
+    itemRepository.save(item);
+  }
 }

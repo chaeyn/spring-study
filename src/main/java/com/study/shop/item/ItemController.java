@@ -37,12 +37,30 @@ public class ItemController {
   @GetMapping("detail/{id}")
   String detail(@PathVariable Long id, Model model) {
 
-    Optional<Item> item = Optional.ofNullable(itemService.getItemById(id));
+    Optional<Item> item = itemService.getItemById(id);
     if (item.isPresent()){
       model.addAttribute("item", item.get());
       return "detail.html";
     } else {
       return "redirect:/list";
     }
+  }
+
+  @GetMapping("edit/{id}")
+  String edit(@PathVariable Long id, Model model) {
+
+    Optional<Item> item = itemRepository.findById(id);
+    if (item.isPresent()){
+      model.addAttribute("item", item.get());
+      return "edit.html";
+    } else {
+      return "redirect:/list";
+    }
+  }
+
+  @PostMapping("edit")
+  String editItem(Long id, String title, Integer price) {
+    itemService.editItem(id, title, price);
+    return "redirect:/list";
   }
 }
