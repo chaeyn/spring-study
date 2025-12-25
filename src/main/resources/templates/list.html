@@ -22,6 +22,9 @@
           .then(() => {location.reload();
           })">🗑️</span>
     </div>
-  </div>
+</div>
+<div th:each="t : ${#numbers.sequence(1, totalPage)}">
+  <a th:href="@{'/list/page/' + ${t}}" th:text="${t} + '번 페이지'"></a>
+</div>
 </body>
 </html>

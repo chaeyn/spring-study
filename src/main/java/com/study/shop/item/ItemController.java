@@ -2,9 +2,10 @@ package com.study.shop.item;
 
 import com.study.shop.member.MemberService;
 import java.nio.file.AccessDeniedException;
-import java.util.List;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
@@ -24,10 +25,8 @@ public class ItemController {
   private final MemberService memberService;
 
   @GetMapping("list")
-  String list(Model model){
-    List<Item> items = itemService.getAllItem();
-    model.addAttribute("items", items);
-    return "list.html";
+  String list(){
+    return "redirect:/list/page/1";
   }
 
   @GetMapping("write")
@@ -78,5 +77,15 @@ public class ItemController {
   ResponseEntity<String> deleteItem(@RequestParam Long id){
       itemRepository.deleteById(id);
       return ResponseEntity.status(200).body("삭제완료");
+  }
+
+  @GetMapping("list/page/{id}")
+  String getListPage(@PathVariable Integer id, Model model){
+
+    Page<Item> result = itemRepository.findPageBy(PageRequest.of(id - 1, 5));
+    Integer totalPage = result.getTotalPages();
+    model.addAttribute("items", result);
+    model.addAttribute("totalPage", totalPage);
+    return "list.html";
   }
 }
