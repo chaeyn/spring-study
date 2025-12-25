@@ -1,6 +1,7 @@
 package com.study.shop.member;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
@@ -29,8 +30,17 @@ public class MyUserDetailsService implements UserDetailsService {
     List<GrantedAuthority> authorities = new ArrayList<>();
     authorities.add(new SimpleGrantedAuthority("일반유저"));
 
-    return new User(user.getUsername(), user.getPassword(), authorities);
-
+    CustomUser customuser = new CustomUser(user.getUsername(), user.getPassword(), authorities);
+    customuser.displayName =  user.getDisplayName();
+    return customuser;
   }
+}
 
+class CustomUser extends User {
+
+  public String displayName;
+  public CustomUser(String username, String password,
+      Collection<? extends GrantedAuthority> authorities) {
+    super(username, password, authorities);
+  }
 }

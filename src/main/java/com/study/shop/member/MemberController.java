@@ -33,6 +33,7 @@ public class MemberController {
 
   @GetMapping("/my-page")
   public String myPage(Authentication auth) {
+    CustomUser result = (CustomUser) auth.getPrincipal();
     if (auth.isAuthenticated()) {
       return "my-page.html";
     }
