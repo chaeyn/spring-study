@@ -27,9 +27,12 @@ public class Item {
   @Column(nullable = false)
   private Integer price;
 
-  public Item(String title, Integer price) {
+  private String username;
+
+  public Item(String title, Integer price, String username) {
     this.title = title;
     this.price = price;
+    this.username = username;
   }
 
 }

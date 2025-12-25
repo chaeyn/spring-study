@@ -1,10 +1,12 @@
 package com.study.shop.item;
 
+import com.study.shop.member.MemberService;
+import java.nio.file.AccessDeniedException;
 import java.util.List;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -19,6 +21,7 @@ public class ItemController {
 
   private final ItemRepository itemRepository;
   private final ItemService itemService;
+  private final MemberService memberService;
 
   @GetMapping("list")
   String list(Model model){
@@ -33,8 +36,11 @@ public class ItemController {
   }
 
   @PostMapping("add")
-  String addPost(String title, Integer price) {
-    itemService.saveItem(title, price);
+  String addPost(String title, Integer price, Authentication auth) throws AccessDeniedException {
+    if (auth == null) {
+      throw new AccessDeniedException("로그인을 해주세요");
+    }
+    itemService.saveItem(title, price, auth.getName());
     return "redirect:/list";
   }
 
