@@ -17,7 +17,7 @@ public class MemberController {
   }
 
   @PostMapping("member")
-  String addMember(String username, String password, String displayName) {
+  String addMember(String username, String password, String displayName) throws Exception {
     memberService.register(username, password, displayName);
     return "redirect:/list";
   }
