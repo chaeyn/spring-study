@@ -12,9 +12,16 @@ public class MemberService {
   private final PasswordEncoder passwordEncoder;
 
   public void register(String username, String password, String displayName) throws Exception {
+    var result = memberRepository.findByUsername(username);
+
+    if (result.isPresent()) {
+      throw new Exception("존재하는 아이디입니다");
+    }
+
     if (username.length() < 4 || password.length() < 8) {
       throw new Exception("너무짧습니다");
     }
+
     String hashedPassword = passwordEncoder.encode(password);
     Member member = new Member(username, hashedPassword, displayName);
     memberRepository.save(member);
