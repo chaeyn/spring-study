@@ -11,8 +11,8 @@ public class ItemService {
 
   private final ItemRepository itemRepository;
 
-  public void saveItem(String title, Integer price, String username) {
-    Item item = new Item(title, price, username);
+  public void saveItem(String title, Integer price, String imgUrl, String username) {
+    Item item = new Item(title, price, imgUrl, username);
     itemRepository.save(item);
   }
 

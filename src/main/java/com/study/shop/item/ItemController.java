@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
 @RequiredArgsConstructor
@@ -22,7 +23,7 @@ public class ItemController {
 
   private final ItemRepository itemRepository;
   private final ItemService itemService;
-  private final MemberService memberService;
+  private final S3Service s3Service;
 
   @GetMapping("list")
   String list(){
@@ -35,11 +36,11 @@ public class ItemController {
   }
 
   @PostMapping("add")
-  String addPost(String title, Integer price, Authentication auth) throws AccessDeniedException {
+  String addPost(String title, Integer price, String imgUrl, Authentication auth) throws AccessDeniedException {
     if (auth == null) {
       throw new AccessDeniedException("로그인을 해주세요");
     }
-    itemService.saveItem(title, price, auth.getName());
+    itemService.saveItem(title, price, imgUrl, auth.getName());
     return "redirect:/list";
   }
 
@@ -88,4 +89,12 @@ public class ItemController {
     model.addAttribute("totalPage", totalPage);
     return "list.html";
   }
+
+  @GetMapping("presigned-url")
+  @ResponseBody
+  String getURL(@RequestParam String filename){
+    var result = s3Service.createPresignedUrl("test/" + filename);
+    return result;
+  }
+
 }

@@ -27,11 +27,14 @@ public class Item {
   @Column(nullable = false)
   private Integer price;
 
+  private String imgUrl;
+
   private String username;
 
-  public Item(String title, Integer price, String username) {
+  public Item(String title, Integer price, String imgUrl, String username) {
     this.title = title;
     this.price = price;
+    this.imgUrl = imgUrl;
     this.username = username;
   }
 

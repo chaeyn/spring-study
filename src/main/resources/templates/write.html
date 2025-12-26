@@ -13,7 +13,39 @@
 <form action="/add" method="POST">
   <input name="title">
   <input name="price">
+  <input type="file" onchange="getURL(this)">
+  <input type="hidden" id="img-url-input" name="imgUrl">
   <button type="submit">전송</button>
 </form>
+<img id="img-box" style="display: none; max-width: 300px;">
+
+<script>
+  const imgBox = document.getElementById("img-box");
+  const imgUrlInput = document.getElementById("img-url-input");
+
+  if (imgBox.src == null) {
+    imgBox.style.display = "none";
+  }
+
+  async function getURL(e) {
+    let name = encodeURIComponent(e.files[0].name);
+    let result = await fetch('presigned-url?filename=' + name);
+    result = await result.text();
+
+    let uploadedFile = await fetch(result, {
+      method: 'PUT',
+      body: e.files[0]
+    })
+
+    if (uploadedFile.ok) {
+      const cleanUrl = uploadedFile.url.split("?")[0];
+
+      imgBox.src = cleanUrl;
+
+      imgUrlInput.value = cleanUrl;
+    }
+  }
+</script>
+
 </body>
 </html>
