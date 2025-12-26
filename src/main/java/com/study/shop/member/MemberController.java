@@ -1,6 +1,5 @@
 package com.study.shop.member;
 
-import java.util.HashMap;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
@@ -50,10 +49,13 @@ public class MemberController {
   public MemberDto getUser(@PathVariable Long id) {
     Optional<Member> result = memberRepository.findById(id);
 
+    if (result.isPresent()) {
       Member member = result.get();
       MemberDto data = new MemberDto(member.getUsername(), member.getDisplayName());
 
       return data;
+    }
+    return null;
   }
 }
 

@@ -16,9 +16,9 @@ public class ItemService {
     itemRepository.save(item);
   }
 
-  public List<Item> getAllItem() {
-    return itemRepository.findAll();
-  }
+//  public List<Item> getAllItem() {
+//    return itemRepository.findAll();
+//  }
 
   public Optional<Item> getItemById(Long id) {
     return itemRepository.findById(id);

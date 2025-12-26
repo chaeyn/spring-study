@@ -1,6 +1,5 @@
 package com.study.shop.item;
 
-import com.study.shop.member.MemberService;
 import java.nio.file.AccessDeniedException;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
@@ -31,7 +30,7 @@ public class ItemController {
   }
 
   @GetMapping("write")
-  String write(Model model){
+  String write(){
     return "write.html";
   }
 
