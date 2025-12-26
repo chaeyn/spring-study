@@ -18,10 +18,10 @@ public class MemberController {
 
   @GetMapping("register")
   String register(Authentication auth) {
-    if (auth.isAuthenticated()) {
+    if (auth != null && auth.isAuthenticated()) {
       return "redirect:/list";
     }
-    return "register.html";
+    return "register";
   }
 
   @PostMapping("member")
