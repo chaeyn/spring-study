@@ -1,6 +1,9 @@
 package com.study.shop.item;
 
+import com.study.shop.comment.Comment;
+import com.study.shop.comment.CommentRepository;
 import java.nio.file.AccessDeniedException;
+import java.util.List;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -23,6 +26,7 @@ public class ItemController {
   private final ItemRepository itemRepository;
   private final ItemService itemService;
   private final S3Service s3Service;
+  private final CommentRepository commentRepository;
 
   @GetMapping("list")
   String list(){
@@ -46,9 +50,11 @@ public class ItemController {
   @GetMapping("detail/{id}")
   String detail(@PathVariable Long id, Model model) {
 
+    List<Comment> comments = commentRepository.findAllByParentId(id);
     Optional<Item> item = itemService.getItemById(id);
     if (item.isPresent()){
       model.addAttribute("item", item.get());
+      model.addAttribute("comments", comments);
       return "detail.html";
     } else {
       return "redirect:/list";
