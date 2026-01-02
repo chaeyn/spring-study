@@ -102,4 +102,15 @@ public class ItemController {
     return result;
   }
 
+  @PostMapping("search")
+  String postSearch(@RequestParam String searchText, Model model){
+
+    Page<Item> result = itemRepository.getItemBySearchText(searchText, PageRequest.of(0, 5));
+    Integer totalPage = result.getTotalPages();
+    model.addAttribute("items", result);
+    model.addAttribute("totalPage", totalPage);
+
+    return "list.html";
+  }
+
 }
