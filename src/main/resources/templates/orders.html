@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/main.css">
+    <title>주문 목록</title>
+</head>
+<body>
+<div th:replace="~{nav.html :: navbar}"></div>
+<h2 style="margin: 20px 0;">주문 목록</h2>
+
+<div th:if="${#lists.isEmpty(sales)}">
+    <p>주문 내역이 없습니다.</p>
+</div>
+
+<table th:if="${!#lists.isEmpty(sales)}" border="1" cellpadding="10" cellspacing="0">
+    <thead>
+    <tr>
+        <th>상품명</th>
+        <th>가격</th>
+        <th>주문자</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="s : ${sales}">
+        <td th:text="${s.itemName}">상품명</td>
+        <td th:text="${s.price}">가격</td>
+        <td th:text="${s.username}">사용자</td>
+    </tr>
+    </tbody>
+</table>
+
+</body>
+</html>
